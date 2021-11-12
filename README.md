@@ -177,4 +177,36 @@ Dans les 2 cas, vous devez ensuite effectuer la commande suivante pour mettre à
 sudo -u www-data php /var/www/html/nextcloud/occ maintenance:update:htaccess
 ```
 
+## Installation en interface Web
+
+Maintenant que vous avez fini de configurer votre serveur dans son ensemble, vous devez aller sur son interface web, accessible par `ip_serveur:port`, dans notre cas, `127.0.0.1:80`.
+
+![Nextcloud installation interface](images/install.png)
+
+Il va falloir spécifier la localisation du dossier des données utilisateur, il peut très bien être en dehors du dossier nextcloud mais il faudra bien penser à donner les droits à l'utilisateur `www-data`. Pour nous c'est: `/var/www/html/nextcloud/data`.
+
+Vous aller choisir votre couple *user/password* d'administration, puis sélectionner la base de données que vous allez utiliser. Dans notre cas, nous choisirons *postgresql*.
+
+On va ensuite remplir les champs indiquant les informations sur notre base de données. Pour nous, il s'agit des étapes effectuées lors de l'étape **Configurer sa base de données**, à savoir le nom de la base et le couple *user/password*.
+
+On active également l'option d'installation des applications par défaut.
+
+Si on valide l'installation, on devrait arriver sur l'interface d'accueil du serveur ce qui signifie qu'il est prêt à être utilisé.
+
 ## Configurer un cache
+
+Maintenant que notre serveur nextcloud est configuré. On peut observer que des ralentissements peuvent survenir lors du chargement de certaines pages.
+
+Il pourrait donc être intéressant d'installer un système de cache afin de ne pas avoir de problèmes de chargement.
+
+Deux options s'offrent à nous, le serveur de cache directement sur notre serveur nextcloud ou alors sur un autre serveur en version distribuée.
+
+Nous allons aborder l'installation sur le même serveur et utiliser les deux outils suivants:
+
+- APCu: Gère un cache local du système.
+- Redis: Gère le cache en mode local ou distribué, prend également en charge les transactions sur les fichiers.
+
+
+### Configuration de APCu
+
+### Configuration de Redis
