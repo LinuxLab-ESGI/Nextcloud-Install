@@ -1,9 +1,24 @@
 # Nextcloud-Install
 
+- [Nextcloud-Install](#nextcloud-install)
+  - [Prérequis](#prérequis)
+  - [Installer les paquets nécessaires](#installer-les-paquets-nécessaires)
+    - [1. Installation du serveur apache2](#1-installation-du-serveur-apache2)
+    - [2. Installer PHP et ses dépendances](#2-installer-php-et-ses-dépendances)
+    - [3. Installer le SGBD](#3-installer-le-sgbd)
+  - [Création du dossier d'installation](#création-du-dossier-dinstallation)
+  - [Configurer sa base de données](#configurer-sa-base-de-données)
+  - [Configurer son serveur web](#configurer-son-serveur-web)
+    - [Cas 1](#cas-1)
+    - [Cas 2](#cas-2)
+  - [Installation en interface Web](#installation-en-interface-web)
+  - [Configurer un cache](#configurer-un-cache)
+    - [Configuration de APCu](#configuration-de-apcu)
+    - [Configuration de Redis](#configuration-de-redis)
+
 ## Prérequis
 
 - Une machine Unix:
-  
   - Raspbian
   - Debian
   - Ubuntu
@@ -15,7 +30,7 @@
 
 ## Installer les paquets nécessaires
 
-On commence par mettre à jour notre machine
+On commence par mettre à jour notre machine.
 
 ```bash
 sudo apt update
@@ -25,7 +40,7 @@ sudo apt update
 sudo apt upgrade
 ```
 
-![Warning](https://api.iconify.design/ion/warning-outline.svg) Ici l'installation se fera avec un serveur apache2, php7.3 et postgresql
+![Warning](https://api.iconify.design/ion/warning-outline.svg) Ici l'installation se fera avec un serveur apache2, dernière version de PHP et un SGBD (PostgreSQL ou Apache2).
 
 ### 1. Installation du serveur apache2
 
@@ -36,21 +51,31 @@ sudo apt install apache2
 ### 2. Installer PHP et ses dépendances
 
 ```bash
-sudo apt install php php-common php-gd php-igbinary php-imagick php7.3 php7.3-bcmath php7.3-cli php7.3-common php7.3-curl php7.3-gd php7.3-gmp php7.3-igbinary php7.3-intl php7.3-json php7.3-mbstring php7.3-pgsql php7.3-readline php7.3-xml php7.3-zip
+sudo apt install php php-common php-gd php-igbinary php-imagick php php-bcmath php-cli php-curl php-gd php-gmp php-igbinary php-intl php-json php-mbstring php-readline php-xml php-zip
 ```
 
-### 3. Installer le SGBD (postgresql)
+### 3. Installer le SGBD
+
+- PostgreSQL
 
 ```bash
-sudo apt install postgresql
+sudo apt install postgresql php-pgsql
 ```
+
+- MariaDB
+
+```bash
+sudo apt install mariadb-server libapache2-mod-php php-mysql
+```
+
+Nous pouvons verifier la bonne installation du serveur Apache en allant en tapant l'adresse IP de la machine dans un navigateur web :
 
 ## Création du dossier d'installation
 
-Nextcloud peut être installer n'importe où sur votre machine, dans notre cas nous allons l'installer au sein de dossier `/var/www/html` mais il pourrait très bien être localisé dans `/home/user`
+Nextcloud peut être installé n'importe où sur votre machine, dans notre cas nous allons l'installer au sein du dossier `/var/www/` mais il pourrait très bien être localisé dans `/home/user`
 
 ```bash
-sudo mkdir -p /var/www/html/nextcloud
+sudo mkdir -p /var/www/nextcloud
 ```
 
 On récupère le fichier php qui va nous permettre d'installer Nextcloud:
@@ -59,16 +84,16 @@ On récupère le fichier php qui va nous permettre d'installer Nextcloud:
 wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
 ```
 
-Maintenant il est nécessaire de donner les droits à l'utilisateur `www-data`:
+Maintenant il est nécessaire de donner les droits à l'utilisateur `www-data` :
 
 ```bash
-sudo chown -R /var/www/html/nextcloud
+sudo chown -R /var/www/nextcloud
 ```
 
 ## Configurer sa base de données
 
-Normalement, arrivé à cette étape, vous avez installé *postgresl*.
-Maintenant, il faut configurer votre base de données et votre utilisateur pour qu'ils soient pas la suite accessible par le *php*.
+Normalement, arrivé à cette étape, vous avez installé *PostgreSQL*.
+Maintenant, il faut configurer votre base de données et votre utilisateur pour qu'ils soient par la suite accessible par le *php*.
 
 Pour cela, on commence par accéder à sa base de données en ligne de commande:
 
@@ -76,8 +101,8 @@ Pour cela, on commence par accéder à sa base de données en ligne de commande:
 sudo -u postgres psql
 ```
 
-Esuite, vous devriez obtenir un bash avec comme prompt: `postgres=#`.
-Cela signifie que vous êtes bien connectés.
+Ensuite, vous devriez obtenir un bash avec comme prompt: `postgres=#`.
+Cela signifie que vous êtes bien connecté.
 
 On va donc créer notre base de données et notre utilisateur:
 
