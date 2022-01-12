@@ -130,7 +130,7 @@ Cela signifie que vous êtes bien connecté.
 On va donc créer notre base de données et notre utilisateur:
 
 ```sql
-CREATE USER myuser CREATEDB;
+CREATE USER myuser WITH PASSWORD 'toto' CREATEDB;
 CREATE DATABASE mydatabase OWNER myuser;
 ```
 
