@@ -96,7 +96,7 @@ Nous pouvons verifier la bonne installation du serveur Apache en allant en tapan
 Nextcloud peut être installé n'importe où sur votre machine, dans notre cas nous allons l'installer au sein du dossier `/var/www/` mais il pourrait très bien être localisé dans `/home/user`
 
 ```bash
-sudo mkdir -p /var/www/nextcloud
+sudo mkdir -p /var/www/html/nextcloud
 ```
 
 On récupère le fichier php qui va nous permettre d'installer Nextcloud:
@@ -108,7 +108,7 @@ wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
 Maintenant il est nécessaire de donner les droits à l'utilisateur `www-data` :
 
 ```bash
-sudo chown -R /var/www/nextcloud
+sudo chown -R www-data:www-data /var/www/html/nextcloud
 ```
 
 ## Configurer sa base de données
