@@ -268,7 +268,7 @@ sudo -u www-data php /var/www/html/nextcloud/occ maintenance:update:htaccess
 
 Maintenant que vous avez fini de configurer votre serveur dans son ensemble, vous devez aller sur son interface web, accessible par `ip_serveur:port`, dans notre cas, `127.0.0.1:80`.
 
-![Nextcloud installation interface](images/install.png)
+![Nextcloud installation interface](img/install.png)
 
 Il va falloir spécifier la localisation du dossier des données utilisateur, il peut très bien être en dehors du dossier nextcloud mais il faudra bien penser à donner les droits à l'utilisateur `www-data`. Pour nous c'est: `/var/www/html/nextcloud/data`.
 
