@@ -2,12 +2,16 @@
 
 - [Nextcloud-Install](#nextcloud-install)
   - [Prérequis](#prérequis)
+  - [Mettre une adresse IP fixe](#mettre-une-adresse-ip-fixe)
+    - [Sur Debian/Debian-like](#sur-debiandebian-like)
   - [Installer les paquets nécessaires](#installer-les-paquets-nécessaires)
     - [1. Installation du serveur apache2](#1-installation-du-serveur-apache2)
     - [2. Installer PHP et ses dépendances](#2-installer-php-et-ses-dépendances)
     - [3. Installer le SGBD](#3-installer-le-sgbd)
   - [Création du dossier d'installation](#création-du-dossier-dinstallation)
   - [Configurer sa base de données](#configurer-sa-base-de-données)
+    - [PostgreSQL](#postgresql)
+    - [MariaDB](#mariadb)
   - [Configurer son serveur web](#configurer-son-serveur-web)
     - [Cas 1](#cas-1)
     - [Cas 2](#cas-2)
@@ -27,6 +31,23 @@
 - Un accès internet
 
 - Un accès CLI
+
+## Mettre une adresse IP fixe
+
+### Sur Debian/Debian-like
+
+Dans `/etc/network/interfaces` ajouter la configuration réseau en fonction du nom de l'interface réseau :
+
+``` text
+auto eth1
+iface eth1 inet static
+  address 192.168.0.1
+  netmask 255.255.255.0
+  gateway 192.168.56.1
+  dns-nameservers 1.1.1.1
+```
+
+> `ip a` pour lister les interfaces réseau de la machine
 
 ## Installer les paquets nécessaires
 
@@ -92,6 +113,8 @@ sudo chown -R /var/www/nextcloud
 
 ## Configurer sa base de données
 
+### PostgreSQL
+
 Normalement, arrivé à cette étape, vous avez installé *PostgreSQL*.
 Maintenant, il faut configurer votre base de données et votre utilisateur pour qu'ils soient par la suite accessible par le *php*.
 
@@ -115,6 +138,45 @@ On quitte l'interface:
 
 ```sql
 \q
+```
+
+### MariaDB
+
+Terminer la configuration de mysql :  
+`mysql_secure_installation`
+
+``` text
+Set root password? [Y/n] : Y
+Remove anonymous users? [Y/n] : Y
+Disallow root login remotely? [Y/n] : Y
+Remove test database and access to it? [Y/n] : Y
+Reload privilege tables now? [Y/n] : Y
+```
+
+Connexion à mariadb :  
+`sudo mysql`
+
+Creation d'un utilisateur pour le serveur Nextcloud :
+
+``` sql
+CREATE USER 'nextcloud_user'@'localhost' IDENTIFIED BY 'password';
+```
+
+``` SQL
+Création de la base de donnée :
+CREATE DATABASE IF NOT EXISTS nextcloud_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+```
+
+Droits à notre utilisateur Nextcloud :
+
+``` SQL
+GRANT ALL PRIVILEGES ON nextcloud_db.* TO 'nextcloud_user'@'localhost';
+```
+
+Application les changements :
+
+``` SQL
+FLUSH PRIVILEGES;
 ```
 
 ## Configurer son serveur web
