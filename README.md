@@ -197,6 +197,8 @@ sudo nano /etc/apache2/sites-available/nextcloud.conf
 Une fois le fichier ouvert, on lui ajoute les lignes suivantes:
 
 ```bash
+ServerName nextcloud.mydomain.tld
+
 ServerAdmin nextcloud@mydomain.tld
 
 DocumentRoot /var/www/html/nextcloud
