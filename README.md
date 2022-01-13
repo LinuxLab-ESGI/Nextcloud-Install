@@ -295,7 +295,21 @@ Nous allons aborder l'installation sur le même serveur et utiliser les deux out
 - APCu: Gère un cache local du système.
 - Redis: Gère le cache en mode local ou distribué, prend également en charge les transactions sur les fichiers.
 
-
 ### Configuration de APCu
+
+Nous devons d'adbord installer le paquets `php-apcu` et redémarrer le service web :  
+`sudo apt install php-apcu && sudo service apache2 restart`
+
+Nous pouvons alors activer le service apcu dans le fichier `config.php` situé dans `/var/www/nextcloud/config/config.php` en ajoutant dans le tableau de config la ligne :  
+
+``` php
+'memcache.local' => '\\OC\\Memcache\\APCu',
+```
+
+> APCu est desactivé par défaut en CLI. Il nous faut vérifier que la variable `apc.enable_cli` est mis à `1` dans `php.ini`, ajouter cette ligne dans le fichier `/etc/php/8.0(version de php)/apache2/php.ini` :
+> 
+>``` ini
+>apc.enable_cli = 1
+>```
 
 ### Configuration de Redis

@@ -23,10 +23,9 @@ section {
 # Sommaire
 
 - Nextcloud ?
-- Historique de nextcloud
+- Historique de Nextcloud
 - Principales fonctionnalités
-- Installation de notre serveur nextcloud
-- Configuration et prise en main
+- Installation et configuration de notre serveur Nextcloud
 
 ---
 <!-- _class: invert -->
@@ -66,4 +65,4 @@ section {
 ---
 <!-- _class: invert -->
 
-# Installation de notre serveur Nextcloud
+# Installation et configuration de notre serveur Nextcloud
