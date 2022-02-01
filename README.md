@@ -89,7 +89,7 @@ sudo apt install postgresql php-pgsql
 sudo apt install mariadb-server libapache2-mod-php php-mysql
 ```
 
-Nous pouvons verifier la bonne installation du serveur Apache en allant en tapant l'adresse IP de la machine dans un navigateur web :
+Nous pouvons vérifier la bonne installation du serveur Apache en tapant directement l'adresse IP de la machine dans un navigateur web :
 
 ## Création du dossier d'installation
 
@@ -249,7 +249,7 @@ sudo nano /var/www/html/nextcloud/config/config.php
 
 ### Cas 2
 
-Si vous hébergez votre nextcloud sur directement sur votre domaine comme `https://mydomain.tld`, alors vous devez rajouter les lignes suivantes dans votre fichier `config.php`:
+Si vous hébergez votre nextcloud directement sur votre domaine comme `https://mydomain.tld`, alors vous devez rajouter les lignes suivantes dans votre fichier `config.php`:
 
 ```bash
 sudo nano /var/www/html/nextcloud/config/config.php
